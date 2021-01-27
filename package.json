@@ -1,0 +1,23 @@
+{
+  "name": "clean-request",
+  "version": "1.0.0",
+  "description": "Use Node.js inbuilt module to make HTTP and HTTPS Requests with or without proxy",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devjohneniola/clean-request.git"
+  },
+  "author": "John Eniola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devjohneniola/clean-request/issues"
+  },
+  "homepage": "https://github.com/devjohneniola/clean-request#readme",
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "prettier": "^2.2.1"
+  }
+}
