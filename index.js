@@ -125,7 +125,7 @@ const peto = args => {
         if (!/^[a-zA-Z]{3,5}:\/\//.test(proxy)) proxy = `http://${proxy}`;
         const _proxy = new URL(proxy);
         const { hostname: hostName, username, password } = _proxy;
-        let { optPort } = _proxy;
+        let { port: optPort } = _proxy;
 
         if (!optPort) optPort = 3128;
 
