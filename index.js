@@ -33,7 +33,7 @@ const peto = args => {
                     port = 80;
                     break;
             }
-        if (port === 80) useHttp = true;
+        if (port === 80 || (!useHttp && protocol === "http:")) useHttp = true;
 
         let data;
         let cType;
