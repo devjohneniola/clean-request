@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const peto = args => {
     return new Promise((resolve, reject) => {
         const {
@@ -5,6 +7,7 @@ const peto = args => {
             body,
             headers: hdrs,
             contentType,
+            downloadPath,
             allowInsecureRequest = false,
             allowRedirect = true,
             // allowCookies = true,
@@ -75,6 +78,8 @@ const peto = args => {
                 } else {
                     resp = res;
                 }
+
+                if (downloadPath) res.pipe(fs.createWriteStream(downloadPath));
 
                 let buff = [];
                 resp.on("data", d => buff.push(d.toString()))
