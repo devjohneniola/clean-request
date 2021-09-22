@@ -1,4 +1,8 @@
 const fs = require("fs");
+const { URL } = require("url");
+const http = require("http");
+const https = require("https");
+const zlib = require("zlib");
 
 const peto = args => {
     return new Promise((resolve, reject) => {
@@ -16,7 +20,6 @@ const peto = args => {
         } = args;
         let { method = "GET", proxy, useHttp = false } = args;
 
-        const { URL } = require("url");
         let _url;
         try {
             _url = new URL(url);
@@ -65,7 +68,7 @@ const peto = args => {
             if (typeof socket !== "undefined") options = { ...options, socket };
             if (typeof agent !== "undefined") options = { ...options, agent };
 
-            const req = require(`http${!useHttp ? "s" : ""}`).request(options, res => {
+            const req = (!useHttp ? https : http).request(options, res => {
                 const { statusCode, statusMessage, headers } = res;
 
                 const contentEnc = headers["content-encoding"];
@@ -73,7 +76,7 @@ const peto = args => {
 
                 let resp;
                 if (isGzip) {
-                    resp = require("zlib").createGunzip();
+                    resp = zlib.createGunzip();
                     res.pipe(resp);
                 } else {
                     resp = res;
@@ -150,7 +153,7 @@ const peto = args => {
         };
         if (typeof reqHeaders !== "undefined") opts = { ...opts, headers: reqHeaders };
 
-        const proxied = require("http")
+        const proxied = http
             .request(opts)
             .on("connect", ({ statusCode }, socket) => {
                 if (statusCode < 200 || statusCode > 299) return reject(statusCode);
