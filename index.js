@@ -17,7 +17,7 @@ const cleanRequest = args => {
             // allowCookies = true,
             reds = 0,
             maxRedirs = 5,
-            restOptions = {},
+            requestOptions = {},
         } = args;
         let { method = "GET", proxy, useHttp = false } = args;
 
@@ -61,7 +61,7 @@ const cleanRequest = args => {
         if (data) headers = { ...headers, "Content-Length": data.length };
         if (hdrs && typeof hdrs === "object") headers = { ...headers, ...hdrs };
 
-        let options = { hostname, port, method, path, headers, ...restOptions };
+        let options = { hostname, port, method, path, headers, ...requestOptions };
         if (allowInsecureRequest) process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
         const sendReq = (props = {}) => {
