@@ -4,7 +4,7 @@ const http = require("http");
 const https = require("https");
 const zlib = require("zlib");
 
-const peto = args => {
+const cleanRequest = args => {
     return new Promise((resolve, reject) => {
         const {
             url,
@@ -17,6 +17,7 @@ const peto = args => {
             // allowCookies = true,
             reds = 0,
             maxRedirs = 5,
+            restOptions = {},
         } = args;
         let { method = "GET", proxy, useHttp = false } = args;
 
@@ -60,7 +61,7 @@ const peto = args => {
         if (data) headers = { ...headers, "Content-Length": data.length };
         if (hdrs && typeof hdrs === "object") headers = { ...headers, ...hdrs };
 
-        let options = { hostname, port, method, path, headers };
+        let options = { hostname, port, method, path, headers, ...restOptions };
         if (allowInsecureRequest) process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
         const sendReq = (props = {}) => {
@@ -95,7 +96,7 @@ const peto = args => {
                             (_url = headers.location) &&
                             reds < maxRedirs
                         )
-                            return peto({ ...args, reds: reds + 1, url: _url })
+                            return cleanRequest({ ...args, reds: reds + 1, url: _url })
                                 .then(resolve)
                                 .catch(reject);
 
@@ -165,4 +166,4 @@ const peto = args => {
     });
 };
 
-module.exports = peto;
+module.exports = cleanRequest;
