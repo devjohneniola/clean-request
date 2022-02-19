@@ -1,6 +1,6 @@
 {
   "name": "clean-request",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Use Node.js inbuilt module to make HTTP and HTTPS Requests with or without proxy",
   "main": "index.js",
   "scripts": {
