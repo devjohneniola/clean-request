@@ -18,6 +18,7 @@ const cleanRequest = args => {
             reds = 0,
             maxRedirs = 5,
             requestOptions = {},
+            responseEncoding,
         } = args;
         let { method = "GET", proxy, useHttp = false } = args;
 
@@ -83,7 +84,9 @@ const cleanRequest = args => {
                     resp = res;
                 }
 
-                if (downloadPath) res.pipe(fs.createWriteStream(downloadPath));
+                if (downloadPath) resp.pipe(fs.createWriteStream(downloadPath));
+
+                if (responseEncoding) resp.setEncoding(responseEncoding);
 
                 let buff = [];
                 resp.on("data", d => buff.push(d.toString()))
@@ -122,7 +125,10 @@ const cleanRequest = args => {
                     .on("error", err => reject(err));
             });
 
-            req.on("error", err => reject(err));
+            req.on("error", err => {
+                req.destroy();
+                reject(err);
+            });
 
             if (data) req.write(data);
             else if (body) req.write(body);
